@@ -157,8 +157,6 @@ module.exports = (robot) ->
       response.on 'end', ->
         console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
     req.end(json)
-
-    #space
     
   robot.hear /(.*)@cab(.*)/i, (res) ->
     """@cab command"""
