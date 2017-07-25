@@ -157,3 +157,50 @@ module.exports = (robot) ->
       response.on 'end', ->
         console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
     req.end(json)
+
+    #space
+    
+  robot.hear /(.*)@cab(.*)/i, (res) ->
+    """@cab command"""
+    text = res.match[0]
+    users = robot.brain.users()
+
+    if text.length < users.length
+      text = "Please check the GroupMe, everyone."
+
+    message =
+      'text': text,
+      'bot_id': bot_id,
+      'attachments': [
+        "loci": [],
+        "type": "mentions",
+        "user_ids": [28263474]
+      ]
+
+    i = 0
+    for user, values of users
+      if user in blacklist
+        continue
+      message.attachments[0].loci.push([i, i+1])
+      message.attachments[0].user_ids.push(user)
+      i += 1
+
+    json = JSON.stringify(message)
+
+    options =
+      agent: false
+      host: "api.groupme.com"
+      path: "/v3/bots/post"
+      port: 443
+      method: "POST"
+      headers:
+        'Content-Length': json.length
+        'Content-Type': 'application/json'
+        'X-Access-Token': token
+
+    req = https.request options, (response) ->
+      data = ''
+      response.on 'data', (chunk) -> data += chunk
+      response.on 'end', ->
+        console.log "[GROUPME RESPONSE] #{response.statusCode} #{data}"
+    req.end(json)
