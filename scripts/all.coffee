@@ -127,7 +127,7 @@ module.exports = (robot) ->
       'attachments': [
         "loci": [],
         "type": "mentions",
-        "user_ids": []
+        "user_ids": [28263474]
       ]
 
     i = 0
