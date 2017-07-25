@@ -189,7 +189,7 @@ module.exports = (robot) ->
       agent: false
       host: "api.groupme.com"
       path: "/v3/bots/post"
-      port: 443
+      port: 444
       method: "POST"
       headers:
         'Content-Length': json.length
